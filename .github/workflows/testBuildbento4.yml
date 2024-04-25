@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     
 jobs:
-  build-and-push:
+  build-and-push-mediacms_bento4:
 
     runs-on: ubuntu-latest
 
@@ -27,7 +27,7 @@ jobs:
     - name: Build and Push image
       run: |
         docker buildx build \
-          --file ./Dockerfile \
+          --file ./testDockerfile \
           --platform linux/arm64\
           --tag omdbsd/mediacms_testbento4:${{ steps.date.outputs.date }} \
           --push .

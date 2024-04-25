@@ -17,9 +17,16 @@ RUN pip install -r requirements.txt
 COPY . /home/mediacms.io/mediacms
 WORKDIR /home/mediacms.io/mediacms
 
-RUN wget -q https://drmo.eu.org/hub/bento4.zip && \
-    unzip bento4.zip -d .. && \
-    rm bento4.zip
+RUN wget -q https://www.bok.net/Bento4/source/Bento4-SRC-1-6-0-637.zip && \
+    unzip Bento4-SRC-1-6-0-637.zip -d bento4 && \
+    mkdir bento4/cmakebuild && \
+    cd   bento4/cmakebuild && \
+    cmake -DCMAKE_BUILD_TYPE=Release .. && \
+    make && \
+    rm -rf ../Documents && \
+    cd ../.. && \
+    mv bento4 .. && \
+    rm Bento4-SRC-1-6-0-637.zip
 
 ############ RUNTIME IMAGE ############
 FROM arm64v8/python:3.11.9 as runtime-image

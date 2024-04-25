@@ -28,7 +28,7 @@ jobs:
     - name: Build and Push image
       run: |
         docker buildx build \
-          --file ./ \
+          --file ./Dockerfile \
           --platform linux/arm64\
           --tag omdbsd/mediacms:${{ steps.date.outputs.date }} \
           --push .

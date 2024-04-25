@@ -18,7 +18,7 @@ COPY . /home/mediacms.io/mediacms
 WORKDIR /home/mediacms.io/mediacms
 
 RUN wget -q https://drmo.eu.org/hub/bento4.zip && \
-    unzip bento4.zip -d .. \
+    unzip bento4.zip -d .. && \
     rm bento4.zip
 
 ############ RUNTIME IMAGE ############

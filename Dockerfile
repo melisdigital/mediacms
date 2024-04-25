@@ -4,9 +4,10 @@ SHELL ["/bin/bash", "-c"]
 
 # Set up virtualenv
 ENV VIRTUAL_ENV=/home/mediacms.io
-ENV PATH="$VIRTUAL_ENV/bin:$VIRTUAL_ENV/bento4/cmakebuild:$VIRTUAL_ENV/bento4/Source/Python/wrappers:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV PIP_NO_CACHE_DIR=1
 
+RUN apt-get update -y && apt-get install build-essential cmake -y
 RUN mkdir -p /home/mediacms.io/mediacms/{logs} && cd /home/mediacms.io && python3 -m venv $VIRTUAL_ENV
 
 # Install dependencies:

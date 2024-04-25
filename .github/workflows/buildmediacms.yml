@@ -3,7 +3,7 @@ name: Build and Push
 on:
   push:
     branches:
-      - mainss
+      - main
 
 jobs:
   build-and-push:

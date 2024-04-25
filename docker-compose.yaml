@@ -2,7 +2,7 @@ version: "3"
 
 services:
   migrations:
-    image: omdbsd/mediacms:04-25-2024
+    image: omdbsd/mediacms:20240425
     volumes:
       - ./:/home/mediacms.io/mediacms/
     environment:
@@ -22,7 +22,7 @@ services:
       db:
         condition: service_healthy
   web:
-    image: omdbsd/mediacms:04-25-2024
+    image: omdbsd/mediacms:20240425
     deploy:
       replicas: 1
     ports:
@@ -37,7 +37,7 @@ services:
     depends_on:
       - migrations
   celery_beat:
-    image: omdbsd/mediacms:04-25-2024
+    image: omdbsd/mediacms:20240425
     volumes:
       - ./:/home/mediacms.io/mediacms/
     environment:
@@ -49,7 +49,7 @@ services:
     depends_on:
       - redis
   celery_worker:
-    image: omdbsd/mediacms:04-25-2024
+    image: omdbsd/mediacms:20240425
     deploy:
       replicas: 1
     volumes:

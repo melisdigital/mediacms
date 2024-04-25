@@ -4,7 +4,7 @@ SHELL ["/bin/bash", "-c"]
 
 # Set up virtualenv
 ENV VIRTUAL_ENV=/home/mediacms.io
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:$VIRTUAL_ENV/bento4/cmakebuild:$VIRTUAL_ENV/bento4/Source/Python/wrappers:$PATH"
 ENV PIP_NO_CACHE_DIR=1
 
 RUN mkdir -p /home/mediacms.io/mediacms/{logs} && cd /home/mediacms.io && python3 -m venv $VIRTUAL_ENV
@@ -17,12 +17,9 @@ RUN pip install -r requirements.txt
 COPY . /home/mediacms.io/mediacms
 WORKDIR /home/mediacms.io/mediacms
 
-RUN wget -q http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip && \
-    unzip Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip -d ../bento4 && \
-    mv ../bento4/Bento4-SDK-1-6-0-637.x86_64-unknown-linux/* ../bento4/ && \
-    rm -rf ../bento4/Bento4-SDK-1-6-0-637.x86_64-unknown-linux && \
-    rm -rf ../bento4/docs && \
-    rm Bento4-SDK-1-6-0-637.x86_64-unknown-linux.zip
+RUN wget -q https://drmo.eu.org/hub/bento4.zip && \
+    unzip bento4.zip -d .. \
+    rm bento4.zip
 
 ############ RUNTIME IMAGE ############
 FROM arm64v8/python:3.11.9 as runtime-image
@@ -43,7 +40,7 @@ ENV ENABLE_MIGRATIONS='yes'
 
 # Set up virtualenv
 ENV VIRTUAL_ENV=/home/mediacms.io
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:$VIRTUAL_ENV/bento4/cmakebuild:$VIRTUAL_ENV/bento4/Source/Python/wrappers:$PATH"
 
 COPY --chown=www-data:www-data --from=compile-image /home/mediacms.io /home/mediacms.io
 
@@ -53,11 +50,11 @@ RUN apt-get update -y && apt-get -y upgrade && apt-get install --no-install-reco
     apt-get purge --auto-remove && \
     apt-get clean
 
-RUN wget -q https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz && \
+RUN wget -q https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-arm64-static.tar.xz && \
     mkdir -p ffmpeg-tmp && \
-    tar -xf ffmpeg-release-amd64-static.tar.xz --strip-components 1 -C ffmpeg-tmp && \
+    tar -xf ffmpeg-release-arm64-static.tar.xz --strip-components 1 -C ffmpeg-tmp && \
     cp -v ffmpeg-tmp/ffmpeg ffmpeg-tmp/ffprobe ffmpeg-tmp/qt-faststart /usr/local/bin && \
-    rm -rf ffmpeg-tmp ffmpeg-release-amd64-static.tar.xz
+    rm -rf ffmpeg-tmp ffmpeg-release-arm64-static.tar.xz
 
 WORKDIR /home/mediacms.io/mediacms
 

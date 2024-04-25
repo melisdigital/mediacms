@@ -15,13 +15,4 @@ RUN mkdir -p /home/mediacms.io/mediacms/{logs} && cd /home/mediacms.io
 COPY . /home/mediacms.io/mediacms
 WORKDIR /home/mediacms.io/mediacms
 
-RUN wget -q https://www.bok.net/Bento4/source/Bento4-SRC-1-6-0-637.zip && \
-    unzip Bento4-SRC-1-6-0-637.zip -d bento4 && \
-    mkdir bento4/cmakebuild && \
-    cd   bento4/cmakebuild && \
-    cmake -DCMAKE_BUILD_TYPE=Release .. && \
-    make && \
-    rm -rf ../Documents && \
-    cd ../.. && \
-    mv bento4 .. && \
-    rm Bento4-SRC-1-6-0-637.zip
+RUN apt-get remove build-essential cmake -y && apt-get autoremove -y

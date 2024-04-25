@@ -1,4 +1,4 @@
-name: Build and Push
+name: Test building mediacms_bento4
 
 # Configure Manual Trigger
 on:

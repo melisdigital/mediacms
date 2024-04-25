@@ -29,6 +29,8 @@ RUN wget -q https://www.bok.net/Bento4/source/Bento4-SRC-1-6-0-637.zip && \
     mv bento4 .. && \
     rm Bento4-SRC-1-6-0-637.zip
 
+RUN apt-get remove build-essential cmake -y && apt-get autoremove -y
+
 ############ RUNTIME IMAGE ############
 FROM arm64v8/python:3.11.9 as runtime-image
 
